@@ -31,9 +31,9 @@ function FormRegister() {
   return (
     <div id="msform">
       <ul id='progressbar'>
-        <li className={currentStep >= 1 ? "active" : ""}>Account setup</li>
-        <li className={currentStep >= 2 ? "active" : ""}>Social profiles</li>
-        <li className={currentStep >= 3 ? "active" : ""}>Personal details</li>
+        <li className={currentStep >= 1 ? "active" : ""}>Création de compte</li>
+        <li className={currentStep >= 2 ? "active" : ""}>Informations personnelles</li>
+        <li className={currentStep >= 3 ? "active" : ""}>Informations de l'entreprise</li>
       </ul>
       {renderStep()}
     </div>

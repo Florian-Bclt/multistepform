@@ -58,7 +58,7 @@ function Step1({ nextStep }) {
       <h3 className='fs-subtitle' style={{ color: 'red' }}>
         <IoIosWarning style={{ position: 'absolute', marginLeft: '-1.2em' }} /> Ces identifiants serviront à la connexion
       </h3>
-      <input type="text" name='email' placeholder='Email'/>
+      <input type="text" name='email' placeholder='Email' required/>
       <div className="password-input-container">
         <input 
           type={passwordVisible ? "text" : "password"}
@@ -68,6 +68,7 @@ function Step1({ nextStep }) {
           onChange={handlePasswordChange}
           onFocus={() => setIsPasswordFocused(true)}
           onBlur={() => setIsPasswordFocused(false)}
+          required
           />
         <span className="toggle-password-visibility" onClick={togglePasswordVisibility}>
           {passwordVisible ? <IoEyeOff /> : <IoEye />}
@@ -81,6 +82,7 @@ function Step1({ nextStep }) {
           placeholder='Confirmation du mot de passe'
           value={passwordConfirm}
           onChange={handlePasswordConfirmChange}
+          required
           />
         <span className="toggle-password-visibility" onClick={togglePasswordConfirmVisibility}>
           {passwordConfirmVisible ? <IoEyeOff /> : <IoEye />}
