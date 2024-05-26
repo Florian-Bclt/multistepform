@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { validatePassword } from '../../utils/passwordUtils';
+import { IoIosWarning } from "react-icons/io";
+import { IoEye, IoEyeOff } from 'react-icons/io5';
 
 function Step1({ nextStep }) {
   const [password, setPassword] = useState('');
@@ -12,7 +14,24 @@ function Step1({ nextStep }) {
     hasSpecialChar: false,
     isValid: false
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
+  // Vérifie si l'input passwsord est séléctionnée
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+  // Choix d'affichage du mot de passe
+  const [passwordVisible, SetPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, SetPasswordConfirmVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    SetPasswordVisible(!passwordVisible);
+  }
+
+  const togglePasswordConfirmVisibility = () => {
+    SetPasswordConfirmVisible(!passwordConfirmVisible);
+  }
+
+  // Cible les valeurs dans les champs password
   const handlePasswordChange = (e) => {
     const { value } = e.target;
     setPassword(value);
@@ -23,39 +42,70 @@ function Step1({ nextStep }) {
     setPasswordConfirm(e.target.value);
   };
 
+  // Vérifie que les critères de mot passe requis sont remplis et que les mots de passe sont identiques
   const handleSubmit = (e) => {
     e.preventDefault();
     if (passwordValidation.isValid && password === passwordConfirm) {
       nextStep();
     } else {
-      alert('Please ensure the password meets all requirements and both passwords match.');
+      setErrorMessage("Critères de mot de passe insuffisants et/ou mots de passes différents");
     }
   };
 
   return (
     <fieldset>
-      <h2 className='fs-title'>Create your account</h2>
-      <h3 className='fs-subtitle'>This is step 1</h3>
+      <h2 className='fs-title'>Création de compte</h2>
+      <h3 className='fs-subtitle' style={{ color: 'red' }}>
+        <IoIosWarning style={{ position: 'absolute', marginLeft: '-1.2em' }} /> Ces identifiants serviront à la connexion
+      </h3>
       <input type="text" name='email' placeholder='Email'/>
-      <input type="password" name='pass' placeholder='Password' value={password} onChange={handlePasswordChange}/>
-      <ul style={{ display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'center', listStyle: 'none', textAlign:'left'}}>
-        <li style={{ color: passwordValidation.minLength ? 'green' : 'red' }}>
-          {passwordValidation.minLength ? '✔' : '✖'} At least 8 characters
+      <div className="password-input-container">
+        <input 
+          type={passwordVisible ? "text" : "password"}
+          name='password'
+          placeholder='Mot de passe'
+          value={password}
+          onChange={handlePasswordChange}
+          onFocus={() => setIsPasswordFocused(true)}
+          onBlur={() => setIsPasswordFocused(false)}
+          />
+        <span className="toggle-password-visibility" onClick={togglePasswordVisibility}>
+          {passwordVisible ? <IoEyeOff /> : <IoEye />}
+        </span>
+      </div>
+
+      <div className="password-input-container">
+        <input 
+          type={passwordConfirmVisible ? "text" : "password"}
+          name='cpassword'
+          placeholder='Confirmation du mot de passe'
+          value={passwordConfirm}
+          onChange={handlePasswordConfirmChange}
+          />
+        <span className="toggle-password-visibility" onClick={togglePasswordConfirmVisibility}>
+          {passwordConfirmVisible ? <IoEyeOff /> : <IoEye />}
+        </span>
+      </div>
+      
+      {/* Critères de mot de passe */}
+      <ul className={`password-criteria ${isPasswordFocused ? 'show' : ''}`}>
+        <li style={{ color: passwordValidation.minLength ? '#166c3a' : 'red' }}>
+          {passwordValidation.minLength ? '✔' : '✖'} Au moins 8 caractères
         </li>
-        <li style={{ color: passwordValidation.hasUpperCase ? 'green' : 'red' }}>
-          {passwordValidation.hasUpperCase ? '✔' : '✖'} At least one uppercase letter
+        <li style={{ color: passwordValidation.hasUpperCase ? '#166c3a' : 'red' }}>
+          {passwordValidation.hasUpperCase ? '✔' : '✖'} Au moins une majuscule
         </li>
-        <li style={{ color: passwordValidation.hasLowerCase ? 'green' : 'red' }}>
-          {passwordValidation.hasLowerCase ? '✔' : '✖'} At least one lowercase letter
+        <li style={{ color: passwordValidation.hasLowerCase ? '#166c3a' : 'red' }}>
+          {passwordValidation.hasLowerCase ? '✔' : '✖'} Au moins une minuscule
         </li>
-        <li style={{ color: passwordValidation.hasNumber ? 'green' : 'red' }}>
-          {passwordValidation.hasNumber ? '✔' : '✖'} At least one number
+        <li style={{ color: passwordValidation.hasNumber ? '#166c3a' : 'red' }}>
+          {passwordValidation.hasNumber ? '✔' : '✖'} Au moins un chiffre
         </li>
-        <li style={{ color: passwordValidation.hasSpecialChar ? 'green' : 'red' }}>
-          {passwordValidation.hasSpecialChar ? '✔' : '✖'} At least one special character
+        <li style={{ color: passwordValidation.hasSpecialChar ? '#166c3a' : 'red' }}>
+          {passwordValidation.hasSpecialChar ? '✔' : '✖'} Au moins un caractère spécial
         </li>
       </ul>
-      <input type="password" name='cpass' placeholder='Confirm Password' value={passwordConfirm} onChange={handlePasswordConfirmChange}/>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <input type="button" name='next' className='next action-button' value="Next" onClick={handleSubmit}/>
     </fieldset>
   );

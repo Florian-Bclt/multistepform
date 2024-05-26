@@ -1,3 +1,5 @@
+/* FORM */
+
 #msform {
   width: 400px;
   margin: 50px auto;
@@ -30,7 +32,7 @@
 
 #msform .action-button {
   width: 100px;
-  background: #27ae60;
+  background: #166c3a;
   font-weight: bold;
   color: white;
   border: 0 none;
@@ -59,6 +61,48 @@
   margin-bottom: 20px;
 }
 
+/* Icon d'input password */
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container input {
+  padding-right: 30px;
+}
+
+.password-input-container .toggle-password-visibility {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+/* PASSWORD SETTINGS */
+
+#msform > fieldset > ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  text-align: left;
+  padding: 0;
+}
+
+ul.password-criteria {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+  opacity: 0;
+}
+
+ul.password-criteria.show {
+  max-height: max-content;
+  opacity: 1;
+}
+
+/* PROGRESSBAR */
+
 #progressbar {
   margin-bottom: 30px;
   overflow: hidden;
@@ -67,7 +111,7 @@
 
 #progressbar li {
   list-style-type: none;
-  color: black;
+  color: white;
   text-transform: uppercase;
   font-size: 9px;
   width: 33.33%;
@@ -92,7 +136,7 @@
   content: '';
   width: 100%;
   height: 2px;
-  background: black;
+  background: white;
   position: absolute;
   left: -50%;
   top: 9px;
@@ -105,6 +149,6 @@
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-  background: #27ae60;
+  background: #166c3a;
   color: white;
 }
